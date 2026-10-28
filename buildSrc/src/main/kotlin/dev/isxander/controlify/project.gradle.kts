@@ -64,6 +64,12 @@ repositories {
         includeGroupAndSubgroups("org.quiltmc")
     }
     maven("https://maven.isxander.dev/releases")
+    strictMaven("https://maven.ftb.dev/releases") {
+        includeGroup("dev.ftb.mods")
+    }
+    strictMaven("https://maven.architectury.dev") {
+        includeGroup("dev.architectury")
+    }
 }
 
 /*
@@ -113,6 +119,8 @@ stonecutter.apply {
         put("simple_voice_chat", isPropDefined("deps.simpleVoiceChat"))
         put("reeses_sodium_options", isPropDefined("deps.reesesSodiumOptions"))
         put("fancy_menu", isPropDefined("deps.fancyMenu"))
+        put("ftb_library", isPropDefined("deps.ftbLibrary"))
+        put("ftb_quests", isPropDefined("deps.ftbQuests"))
 
         put("unobf", eval(current.version, ">=26"))
         put("intermediary_lambdas", !eval(current.version, ">=26") && !modstitch.isModDevGradle)

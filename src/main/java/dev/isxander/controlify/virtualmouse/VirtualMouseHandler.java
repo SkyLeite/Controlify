@@ -166,7 +166,7 @@ public class VirtualMouseHandler {
 
         if (ControlifyBindings.GUI_BACK.on(controller).justPressed() && minecraft.screen != null) {
             ScreenProcessor.playClackSound();
-            minecraft.screen.onClose();
+            ScreenProcessorProvider.provide(minecraft.screen).onVirtualMouseBack();
         }
     }
 
@@ -385,6 +385,7 @@ public class VirtualMouseHandler {
 
     public void renderVirtualMouse(GuiGraphics graphics) {
         if (!virtualMouseEnabled) return;
+        if (minecraft.screen != null && ScreenProcessorProvider.provide(minecraft.screen).hideVirtualMouseCursor()) return;
 
         if (DebugProperties.DEBUG_SNAPPING) {
             for (var snapPoint : snapPoints) {
@@ -546,12 +547,15 @@ public class VirtualMouseHandler {
     }
 
     private Set<SnapPoint> collectSnapPoints() {
+        if (minecraft.screen == null) return Set.of();
+
+        Set<SnapPoint> points = new HashSet<>();
         if (minecraft.screen instanceof ISnapBehaviour snapBehaviour) {
-            Set<SnapPoint> points = new HashSet<>();
             snapBehaviour.controlify$collectSnapPoints(points::add);
-            return points;
-        } else {
-            return Set.of();
         }
+        if (ScreenProcessorProvider.provide(minecraft.screen) instanceof ISnapBehaviour snapBehaviour) {
+            snapBehaviour.controlify$collectSnapPoints(points::add);
+        }
+        return points;
     }
 }

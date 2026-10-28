@@ -126,6 +126,9 @@ dependencies {
     modDependency("simpleVoiceChat", { "maven.modrinth:simple-voice-chat:$it" })
     // fancy menu compat
     modDependency("fancyMenu", { "maven.modrinth:fancymenu:$it" }, supportsRuntime = false)
+    // ftb library / quests compat
+    modDependency("ftbLibrary", { "dev.ftb.mods:ftb-library-neoforge:$it" }, supportsRuntime = false)
+    modDependency("ftbQuests", { "dev.ftb.mods:ftb-quests-neoforge:$it" }, supportsRuntime = false)
 }
 
 j52j {

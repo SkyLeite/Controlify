@@ -16,6 +16,8 @@ public class ControlifyCompat {
     public static final String IMMEDIATELY_FAST = "immediatelyfast";
     public static final String SIMPLE_VOICE_CHAT = "voicechat";
     public static final String FANCY_MENU = "fancymenu";
+    public static final String FTB_LIBRARY = "ftblibrary";
+    public static final String FTB_QUESTS = "ftbquests";
 
     public static void init() {
         //? if simple_voice_chat {
@@ -37,6 +39,28 @@ public class ControlifyCompat {
             );
         } catch (NoClassDefFoundError e) {
             disabledMods.add(FANCY_MENU);
+        }
+        //?}
+
+        //? if ftb_library {
+        try {
+            wrapCompatCall(
+                    FTB_LIBRARY,
+                    dev.isxander.controlify.compatibility.ftblibrary.FTBLibraryCompat::init
+            );
+        } catch (NoClassDefFoundError e) {
+            disabledMods.add(FTB_LIBRARY);
+        }
+        //?}
+
+        //? if ftb_quests {
+        try {
+            wrapCompatCall(
+                    FTB_QUESTS,
+                    dev.isxander.controlify.compatibility.ftbquests.FTBQuestsCompat::init
+            );
+        } catch (NoClassDefFoundError e) {
+            disabledMods.add(FTB_QUESTS);
         }
         //?}
     }

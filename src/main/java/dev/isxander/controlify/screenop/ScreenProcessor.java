@@ -283,6 +283,14 @@ public class ScreenProcessor<T extends Screen> {
         return VirtualMouseBehaviour.DEFAULT;
     }
 
+    public void onVirtualMouseBack() {
+        screen.onClose();
+    }
+
+    public boolean hideVirtualMouseCursor() {
+        return false;
+    }
+
     public void addEventListener(ScreenControllerEventListener listener) {
         eventListeners.add(listener);
     }

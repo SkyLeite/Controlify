@@ -23,7 +23,6 @@ import dev.isxander.controlify.hid.HIDID;
 import dev.isxander.controlify.utils.CUtil;
 import dev.isxander.controlify.utils.ControllerUtils;
 import dev.isxander.controlify.utils.log.ControlifyLogger;
-import dev.isxander.sdl3java.api.events.SDL_EventFilter;
 import dev.isxander.sdl3java.api.events.events.SDL_Event;
 import dev.isxander.sdl3java.api.gamepad.SDL_Gamepad;
 import dev.isxander.sdl3java.api.iostream.SDL_IOStream;
@@ -50,18 +49,12 @@ public class SDLControllerManager extends AbstractControllerManager {
 
     private SDL_Event event = new SDL_Event();
 
-    // must keep a reference to prevent GC from collecting it and the callback failing
-    @SuppressWarnings({"FieldCanBeLocal", "unused"})
-    private final EventFilter eventFilter;
-
     private boolean steamDeckConsumed = false;
 
     public SDLControllerManager(ControlifyLogger logger) {
         super(logger);
         logger.debugLog("Controller manager using SDL3");
         logger.validateIsTrue(SDLNativesLoader.isLoaded(), "SDL3 natives must be loaded before creating SDLControllerManager");
-
-        SDL_SetEventFilter(eventFilter = new EventFilter(), Pointer.NULL);
     }
 
     @Override
@@ -261,19 +254,6 @@ public class SDLControllerManager extends AbstractControllerManager {
         @Override
         public int hashCode() {
             return Objects.hash(jid.longValue());
-        }
-    }
-
-    private static class EventFilter implements SDL_EventFilter {
-        @Override
-        public boolean filterEvent(Pointer userdata, SDL_Event event) {
-            switch (event.type) {
-                case SDL_EVENT_JOYSTICK_ADDED:
-                case SDL_EVENT_JOYSTICK_REMOVED:
-                    return true;
-                default:
-                    return false;
-            }
         }
     }
 }
